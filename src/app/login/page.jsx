@@ -1,8 +1,6 @@
 "use client";
 import { FaGoogle } from "react-icons/fa";
-
 import {
-  Button,
   Description,
   FieldError,
   Form,
@@ -14,11 +12,17 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import LoadingButton from "@/components/LoadingButton";
 
 const Login = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     const email = e.target.email.value;
     const password = e.target.password.value;
 
@@ -27,6 +31,8 @@ const Login = () => {
       password,
       callbackURL: "/",
     });
+
+    setIsLoading(false);
 
     if (error) {
       toast.error(error.message);
@@ -40,6 +46,7 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     await authClient.signIn.social({ provider: "google" });
   };
+
   return (
     <div className="border mx-auto w-full max-w-md py-10 mt-10 px-6 rounded-lg shadow">
       <h1 className="text-center text-2xl font-bold mb-6">Login</h1>
@@ -61,6 +68,7 @@ const Login = () => {
             <Input placeholder="john@example.com" />
             <FieldError />
           </TextField>
+
           <TextField
             isRequired
             minLength={8}
@@ -86,33 +94,28 @@ const Login = () => {
             </Description>
             <FieldError />
           </TextField>
-          <div>
-            <Button
-              type="submit"
-              className="bg-emerald-900 w-full text-center text-white"
-            >
-              Login
-            </Button>
-          </div>
+
+          <LoadingButton isLoading={isLoading}>Login</LoadingButton>
         </Form>
+
         <div className="flex items-center gap-2 my-4">
           <div className="flex-1 h-px bg-gray-300"></div>
           <span className="text-sm text-gray-500">OR</span>
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
+
         <button
           onClick={handleGoogleSignIn}
           className="w-full flex items-center justify-center gap-2 border py-2 rounded-full text-sm bg-emerald-900 text-white hover:bg-emerald-800"
         >
           <FaGoogle /> Sign In With Google
         </button>
+
         <p className="text-center text-sm mt-4">
-          {" "}
           Don't Have An Account?{" "}
           <Link href="/register" className="text-emerald-900 font-bold">
-            {" "}
-            Register{" "}
-          </Link>{" "}
+            Register
+          </Link>
         </p>
       </div>
     </div>

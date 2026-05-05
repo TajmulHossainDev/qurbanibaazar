@@ -3,8 +3,8 @@ import { FaGoogle } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useState } from "react";
 import {
-  Button,
   Description,
   FieldError,
   Form,
@@ -13,26 +13,38 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import LoadingButton from "@/components/LoadingButton";
 
 const RegisterPage = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     const image = e.target.image.value;
+    const validImage =
+      image.startsWith("http") && image.match(/\.(jpeg|jpg|png|webp)$/i)
+        ? image
+        : "";
 
     if (password.length < 8) {
       toast.error("password must contain at least 8 characters");
+      setIsLoading(false);
       return;
     }
     if (!/[A-Z]/.test(password)) {
       toast.error("password must contain least one uppercase letter");
+      setIsLoading(false);
       return;
     }
     if (!/[0-9]/.test(password)) {
       toast.error("password must contain at least one number");
+      setIsLoading(false);
       return;
     }
 
@@ -40,13 +52,16 @@ const RegisterPage = () => {
       name,
       email,
       password,
-      image,
+      image: validImage,
     });
+
+    setIsLoading(false);
 
     if (error) {
       toast.error(error.message);
       return;
     }
+
     toast.success("registration successful");
     router.push("/login");
   };
@@ -54,6 +69,7 @@ const RegisterPage = () => {
   const handleGoogleSignIn = async () => {
     await authClient.signIn.social({ provider: "google" });
   };
+
   return (
     <div className="border mx-auto w-full max-w-md py-10 mt-10 px-6 rounded-lg shadow">
       <h1 className="text-center text-2xl font-bold mb-6">Register</h1>
@@ -96,6 +112,7 @@ const RegisterPage = () => {
           <Input placeholder="john@example.com" />
           <FieldError />
         </TextField>
+
         <TextField
           isRequired
           minLength={8}
@@ -121,14 +138,8 @@ const RegisterPage = () => {
           </Description>
           <FieldError />
         </TextField>
-        <div>
-          <Button
-            type="submit"
-            className="bg-emerald-900 w-full text-center text-white"
-          >
-            Register
-          </Button>
-        </div>
+
+        <LoadingButton isLoading={isLoading}>Register</LoadingButton>
       </Form>
 
       <div className="flex items-center gap-2 my-4">
@@ -143,13 +154,12 @@ const RegisterPage = () => {
       >
         <FaGoogle /> Sign In With Google
       </button>
+
       <p className="text-center text-sm mt-4">
-        {" "}
         Have An Account?{" "}
         <Link href="/login" className="text-emerald-900 font-bold">
-          {" "}
-          Login{" "}
-        </Link>{" "}
+          Login
+        </Link>
       </p>
     </div>
   );

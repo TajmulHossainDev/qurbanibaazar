@@ -74,8 +74,8 @@ const Navbar = () => {
           {user && (
             <div className="flex gap-3 items-center">
               <Image
-                src={user?.image}
-                alt={user?.name}
+                src={user?.image || "/avatar.png"}
+                alt={user?.name || "user"}
                 width={50}
                 height={50}
                 referrerPolicy="no-referrer"
