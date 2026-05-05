@@ -56,10 +56,6 @@ const Navbar = () => {
           </li>
         </ul>
 
-
-
-
-
         <div className="flex gap-3 items-center">
           {!user && (
             <>
@@ -110,10 +106,6 @@ const Navbar = () => {
             />
           </button>
         </div>
-
-
-
-        
       </nav>
       {menuOpen && (
         <div className="md:hidden bg-emerald-800 px-4 pb-4 flex flex-col gap-3">

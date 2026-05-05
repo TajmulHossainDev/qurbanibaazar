@@ -1,9 +1,12 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 const MyProfilePage = () => {
-  const user = null;
+  const userData = authClient.useSession();
+  const user = userData.data?.user;
+
   return (
     <div className="max-w-7xl mx-auto border rounded-lg mt-10 p-6 flex flex-col items-center gap-3 shadow">
       <Image
