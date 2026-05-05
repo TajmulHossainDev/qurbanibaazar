@@ -29,7 +29,6 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* Nav Links */}
         <ul className="flex items-center gap-5 text-sm">
           <li>
             <Link href="/" className="text-white hover:text-yellow-400">
