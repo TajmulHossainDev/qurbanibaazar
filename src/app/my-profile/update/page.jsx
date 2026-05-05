@@ -1,12 +1,28 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 const UpdateProfilePage = () => {
+  const router = useRouter();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const image = e.target.image.value;
+    await authClient.updateUser({
+      name,
+      image,
+    });
+    toast.success("profile update successfully");
+    router.push("/my-profile");
+  };
   return (
     <div className="max-w-96 mx-auto border rounded-lg mt-10 p-6 shadow">
       <h1 className="text-2xl font-bold mb-6 text-center">
         Update Information
       </h1>
 
-      <form className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <div>
           <label className="text-sm font-medium">Name</label>
           <input

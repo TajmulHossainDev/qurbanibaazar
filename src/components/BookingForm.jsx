@@ -1,7 +1,23 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 const BookingForm = () => {
+  const router = useRouter();
+  const userData = authClient.useSession();
+  const user = userData.data?.user;
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!user) {
+      toast.error("For Booking Please Login first");
+      router.push("/login");
+      return;
+    }
+    toast.success("Your Booking in Confirmed.We Will contact with you soon...");
+    e.target.reset();
+  };
   return (
-    <form className="space-y-3">
+    <form onSubmit={onSubmit} className="space-y-3">
       <input
         required
         type="text"
