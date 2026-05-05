@@ -18,7 +18,10 @@ const AnimalCard = ({ animal }) => {
       </div>
       <h2 className=" font-semibold mt-3 text-base"> {animal.name} </h2>
       <div className="flex justify-between items-center my-1">
-        <p className="text-green-700 font-bold"> ৳ {animal.price.toLocaleString()} </p>
+        <p className="text-green-700 font-bold">
+          {" "}
+          ৳ {animal.price.toLocaleString()}{" "}
+        </p>
         <p className="text-gray-500 text-sm flex items-center gap-1">
           {" "}
           <FaLocationDot /> {animal.location}{" "}
