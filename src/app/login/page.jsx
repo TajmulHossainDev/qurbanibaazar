@@ -11,14 +11,41 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const router = useRouter();
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    const { data, error } = await authClient.signIn.email({
+      email,
+      password,
+      callbackURL: "/",
+    });
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    toast.success("login successful");
+    router.push("/");
+  };
+
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({ provider: "google" });
+  };
   return (
     <div className="border mx-auto w-full max-w-md py-10 mt-10 px-6 rounded-lg shadow">
       <h1 className="text-center text-2xl font-bold mb-6">Login</h1>
 
       <div>
-        <Form className="flex flex-col gap-4">
+        <Form onSubmit={onSubmit} className="flex flex-col gap-4">
           <TextField
             isRequired
             name="email"
@@ -73,7 +100,10 @@ const Login = () => {
           <span className="text-sm text-gray-500">OR</span>
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
-        <button className="w-full flex items-center justify-center gap-2 border py-2 rounded-full text-sm bg-emerald-900 text-white hover:bg-emerald-800">
+        <button
+          onClick={handleGoogleSignIn}
+          className="w-full flex items-center justify-center gap-2 border py-2 rounded-full text-sm bg-emerald-900 text-white hover:bg-emerald-800"
+        >
           <FaGoogle /> Sign In With Google
         </button>
         <p className="text-center text-sm mt-4">
