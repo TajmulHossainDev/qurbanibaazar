@@ -1,8 +1,7 @@
 export const dynamic = "force-dynamic";
 
-
 const TopBreeds = async () => {
-    const res = await fetch('https://qurbanibaazar.vercel.app/animals.json')
+  const res = await fetch("https://qurbanibaazar.vercel.app/animals.json");
   const animals = await res.json();
   const breedMap = {};
 

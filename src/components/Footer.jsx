@@ -24,7 +24,7 @@ const Footer = () => {
               </h2>
             </div>
             <p className="text-sm text-emerald-300">Your Trust Is Our Vision</p>
-             
+
             <div className="flex gap-4">
               <a
                 href="#"
