@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-
 const privateRoutes = ["/my-profile", "/animals/"];
-
 export async function proxy(request) {
   const { pathname } = request.nextUrl;
 
