@@ -1,5 +1,8 @@
 "use client";
 import { FaGoogle } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import {
   Button,
   Description,
@@ -12,11 +15,50 @@ import {
 import Link from "next/link";
 
 const RegisterPage = () => {
+  const router = useRouter();
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const image = e.target.image.value;
+
+    if (password.length < 8) {
+      toast.error("password must contain at least 8 characters");
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      toast.error("password must contain least one uppercase letter");
+      return;
+    }
+    if (!/[0-9]/.test(password)) {
+      toast.error("password must contain at least one number");
+      return;
+    }
+
+    const { data, error } = await authClient.signUp.email({
+      name,
+      email,
+      password,
+      image,
+    });
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("registration successful");
+    router.push("/login");
+  };
+
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({ provider: "google" });
+  };
   return (
     <div className="border mx-auto w-full max-w-md py-10 mt-10 px-6 rounded-lg shadow">
       <h1 className="text-center text-2xl font-bold mb-6">Register</h1>
 
-      <Form className="flex flex-col gap-4">
+      <Form onSubmit={onSubmit} className="flex flex-col gap-4">
         <TextField
           isRequired
           name="name"
@@ -95,7 +137,10 @@ const RegisterPage = () => {
         <div className="flex-1 h-px bg-gray-300"></div>
       </div>
 
-      <button className="w-full flex items-center justify-center gap-2 border py-2 rounded-full text-sm bg-emerald-900 text-white hover:bg-emerald-800">
+      <button
+        onClick={handleGoogleSignIn}
+        className="w-full flex items-center justify-center gap-2 border py-2 rounded-full text-sm bg-emerald-900 text-white hover:bg-emerald-800"
+      >
         <FaGoogle /> Sign In With Google
       </button>
       <p className="text-center text-sm mt-4">

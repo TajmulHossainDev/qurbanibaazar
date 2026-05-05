@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer></Footer>
         <ToastContainer />
-        </body>
+      </body>
     </html>
   );
 }

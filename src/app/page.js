@@ -5,10 +5,12 @@ import TopBreeds from "@/components/TopBreeds";
 import Image from "next/image";
 
 export default function Home() {
-  return <>
-  <Banner></Banner>
-  <FeaturedAnimals></FeaturedAnimals>
-  <TopBreeds></TopBreeds>
-  <QurbaniTips></QurbaniTips>
-  </>;
+  return (
+    <>
+      <Banner></Banner>
+      <FeaturedAnimals></FeaturedAnimals>
+      <TopBreeds></TopBreeds>
+      <QurbaniTips></QurbaniTips>
+    </>
+  );
 }
