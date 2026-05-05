@@ -19,10 +19,8 @@ const Navbar = () => {
           <div className="flex items-center justify-center group-hover:scale-110 transition-transform">
             <Image
               src={logo}
-              height={100}
-              width={150}
               alt="logo"
-              className="rounded-xl"
+              className=" h-20 w-auto rounded-xl"
             ></Image>
           </div>
           <div className="hidden sm:block">

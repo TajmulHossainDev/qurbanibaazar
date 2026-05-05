@@ -10,10 +10,12 @@ const MyProfilePage = () => {
   return (
     <div className="max-w-7xl mx-auto border rounded-lg mt-10 p-6 flex flex-col items-center gap-3 shadow">
       <Image
-        src={user?.image}
-        alt={user?.name}
+        src={user?.image || "/avatar.png"}
+        alt={user?.name || "user"}
+        width={80}
+        height={80}
         referrerPolicy="no-referrer"
-        className="w-20 h-20 rounded-full object-cover"
+        className="rounded-full object-cover"
       ></Image>
       <h2 className="text-xl font-bold"> {user?.name} </h2>
       <p className="text-gray-500 text-sm"> {user?.email} </p>

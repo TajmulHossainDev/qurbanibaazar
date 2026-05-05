@@ -35,12 +35,12 @@ const UpdateProfilePage = () => {
         </div>
 
         <div>
-          <label className="text-sm font-medium">Email</label>
+          <label className="text-sm font-medium">Image</label>
           <input
-            type="email"
-            name="email"
+            type="text"
+            name="image"
             required
-            placeholder="jhon@example.com"
+            placeholder="Image URL"
             className="w-full border rounded px-3 py-2 text-sm mt-1 outline-none focus:border-green-700"
           />
         </div>

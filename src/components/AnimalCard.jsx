@@ -10,6 +10,7 @@ const AnimalCard = ({ animal }) => {
           src={animal.image}
           alt={animal.name}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="object-cover transition-transform duration-300 hover:scale-105"
         ></Image>
         <span className="absolute right-2 top-2 bg-white text-s font-semibold px-2 py-1 rounded-full">
