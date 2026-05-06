@@ -1,23 +1,14 @@
 import { NextResponse } from "next/server";
-const privateRoutes = ["/my-profile", "/animals/"];
+import { auth } from "./lib/auth";
+import { headers } from "next/headers";
 export async function proxy(request) {
-  const { pathname } = request.nextUrl;
-
-  const isPrivate = privateRoutes.some((route) => pathname.startsWith(route));
-
-  if (!isPrivate) {
-    return NextResponse.next();
-  }
-
-  const cookie = request.cookies.get("better-auth.session_token");
-
-  if (!cookie) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
-
-  return NextResponse.next();
 }
-
 export const config = {
-  matcher: ["/my-profile", "/animals"],
+  matcher: ["/my-profile", "/animals/:path"],
 };
